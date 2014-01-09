@@ -1,0 +1,3 @@
+[submodule "js/vendor/jquery"]
+	path = js/vendor/jquery
+	url = git://github.com/jquery/jquery.git
