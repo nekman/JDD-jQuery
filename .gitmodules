@@ -1,3 +1,9 @@
 [submodule "js/vendor/jquery"]
 	path = js/vendor/jquery
 	url = git://github.com/jquery/jquery.git
+[submodule "jquery"]
+	path = jquery
+	url = git://github.com/jquery/jquery.git
+[submodule "reveal"]
+	path = reveal
+	url = https://github.com/hakimel/reveal.js.git
