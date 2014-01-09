@@ -1,0 +1,87 @@
+img {
+	border: none !important;
+	box-shadow: none !important;
+}
+
+.font-xlarge {
+	font-size: 1.1em !important;				
+}
+
+.font-large {
+	font-size: 0.8em !important;				
+}
+
+.font-small {
+	font-size: 0.75em !important;				
+}
+
+.red {
+	color: red;
+}
+
+.white-color {
+	color: #fff;
+}
+
+.white-color a {
+	text-decoration: underline !important;
+}
+
+.white-color a:visited {
+	color: #fff;
+}
+
+code {
+	outline: none;
+	word-wrap: break-word !important;
+}
+
+button {
+	font-size: 1em;
+	background-color: #fff;
+	cursor: pointer;
+	padding: 5px;
+	min-width: 100px;
+}
+
+.max-width {
+	width: 100% !important;			
+}
+
+.white-background {
+	background-color: #fff;
+}
+
+p.strikethrough {
+	color: red;
+	text-decoration: line-through;
+}
+
+::selection {
+	background: #FFFF96;
+	color: inherit;
+}
+
+.left {
+	text-align: left !important;
+}
+
+h1, h2, h3, h4 {
+	text-transform: none !important;
+}
+
+tbody tr td {
+	padding: 10px !important;
+}
+
+tbody tr:nth-child(odd) {
+   background-color: #eee;
+}
+
+tbody tr:nth-child(even) {
+   background-color: #fff;
+}
+
+ul.list-unstyled {
+	list-style: none;
+}

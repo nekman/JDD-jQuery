@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>JDD jQuery</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="js/vendor/reveal/css/reveal.min.css">
+		<link rel="stylesheet" href="js/vendor/reveal/css/theme/beige.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="js/vendor/reveal/lib/css/github.css">
+		<link rel="stylesheet" href="css/app.css"> 
+		<!--[if lt IE 9]>
+		<script src="js/vendor/reveal/lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background="#0091BE">
+					<img src="img/HTML5_sticker.png" alt="" />
+				</section>
+
+				<section>
+					<h1 class="text-center">jQuery</h1>
+					<img alt="JDD logo" src="img/JDD-transparent.png">
+
+					<p>
+						<small>
+							<a href="http://nekman.se">Nils Ekman</a> <a href="http://twitter.com/nekman">@nekman</a>
+						</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Agenda</h2>
+					<ul>
+						<li>Introduktion till jQuery</li>
+						<li>API</li>
+						<li>jQuery under huven</li>
+						<li>Prestanda</li>	
+						<li>Anti patterns</li>
+						<li>Plugins</li>
+						<li>Anpassning</li>
+					</ul>
+				</section>
+
+				<section class="white-color" data-background="#121A27">
+					<img alt="jQuery logo" src="img/jquery_logo.png">
+
+					<ul>
+						<li>
+							Släppt 2006 av <a href="http://ejohn.org/">John Resig</a> <a href="https://twitter.com/jeresig">@jeresig</a>
+						</li>				
+						<li>Open Source (<a href="https://github.com/jquery/jquery">https://github.com/jquery/jquery</a>)</li>
+						<li>Sköts av jQuery Foundation (<a href="http://jquery.org">http://jquery.org</a>)</li>
+						<li>Licensierat under MIT</li>
+					</ul>					
+				</section>
+
+				<section data-background="#fff">
+					<h2>jQuery Foundation Projects</h2>
+					<img src="img/jquery.jpg" alt="" />
+					<table>
+						<tr>
+							<td class="white-background">					
+								<img src="img/jqueryui.jpg" alt="" />
+							</td>
+							<td class="white-background">
+								<img src="img/jquerymobile.jpg" alt="" />
+							</td>
+						</tr>
+						<tr>
+							<td class="white-background">
+								<img src="img/qunit.jpg" alt="" />
+							</td>
+							<td class="white-background">
+								<img src="img/sizzle.jpg" alt="" />
+							</td>
+						</tr>
+					</table>					
+				</section>
+
+				<section class="left font-small" style="width: auto;">
+					<h2>Historik</h2>
+					<table>
+						<thead>
+							<tr>
+								<th colspan="2">Version</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><td>0.X</td><td>2005-08-22</td><td>John Resig <a href="http://ejohn.org/blog/selectors-in-javascript/">nämner på sin blogg att han jobbar på ett nytt JS-bibliotek</a></td></tr>
+							<tr class="fragment"><td>1.0</td><td>2006-08-26</td><td>Första release</td></tr>
+							<tr class="fragment"><td>1.1</td><td>2007-06-17</td><td>Plugin repository</td></tr>
+							<tr class="fragment"><td>1.2</td><td>2007-09-17</td><td>jQuery UI släpps</td></tr>					
+							<tr class="fragment"><td>1.2.6</td><td>2008-05-09</td><td>QUnit 1.0</td></tr>							
+							<tr class="fragment"><td>1.3</td><td>2009-01-14</td><td>Inför Sizzle</td></tr>
+							<tr class="fragment"><td>1.5</td><td>2011-01-31</td><td>Stor $.ajax refaktorering. Inför <a href="https://api.jquery.com/jquery.deferred/">Deferred</a></td></tr>
+							<tr class="fragment"><td>1.7</td><td>2011-11-03</td><td>Nytt event-API. Inför on/off. Registrerar sig själv som en <a href="http://en.wikipedia.org/wiki/Asynchronous_module_definition">AMD</a>-modul</td></tr>
+							<tr class="fragment"><td>1.7</td><td>2011-11-16</td><td>jQuery Mobile 1.0</td></tr>
+							<tr class="fragment"><td>1.7.2</td><td>2012-04-06</td><td>jQuery Foundation bildas</td></tr>
+							<tr class="fragment"><td>2.0 / 1.10</td><td>2013-04-18</td><td>Två brancher, 2.0 för moderna browsers (IE9+) och 1.10 för äldre</td></tr>
+							<tr class="fragment"><td>2.1 / 1.11</td><td>2013-11-16</td><td>Infört AMD internt. 2.0-versionen publiceras till <a href="https://npmjs.org/package/jquery">npm</a></td></tr>
+						</tbody>
+
+						<aside class="notes">
+						jQuery 2.0 is intended for the modern web; we’ve got jQuery 1.x to handle older browsers and fully expect to support it for several more years.
+						</aside>
+					</table>
+
+				</section>
+
+				<section>
+					<h1>Community</h1>
+					<ul class="list-unstyled">
+						<li>Repository <a href="http://github.com/jquery/jquery">github.com/jquery/jquery</a></li>
+						
+						<li>
+							<ul>
+								<li><strong>5955</strong> forks</li>
+								<li><strong>2532</strong> watchers</li>
+								<li><strong>27738</strong> stars</li>						
+							</ul>
+						</li>
+						<li>API <a href="http://api.jquery.com">api.jquery.com</a></li>
+						<li>Bugs <a href="http://bugs.jquery.com">bugs.jquery.com</a></li>
+						<li>Learn <a href="http://learn.jquery.com">learn.jquery.com</a></li>
+						<li>Forum <a href="http://forum.jquery.com">forum.jquery.com</a></li>
+						<li>Plugins <a href="http://plugins.jquery.com">plugins.jquery.com</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Hello World!</h2>
+
+					<pre class="max-width font-large"><code class="html" data-trim>
+&lt;script src="//code.jquery.com/jquery-1.10.2.js"&gt;&lt;/script&gt;
+					</code></pre>
+
+
+					<pre class="max-width font-large"><code class="javascript" contenteditable data-trim>
+jQuery(document).ready(function() {
+	console.log('Hello World!');
+});
+					</code></pre>
+
+					<button class="runnable">Kör</button>
+				</section>
+
+				<section>
+
+
+					<section>
+						<h2>Vad är jQuery?</h2>
+
+						<p class="fragment">Cross browser DOM-wrapper?</p>
+						<p class="fragment">Schweizisk armékniv?</p>
+						
+						<p class="fragment js">JavaScript!</p>
+
+					</section>
+
+					<section>
+						<h2>Vad hjälper jQuery oss med?</h2>
+					</section>
+
+					<section>
+						<h3>DOM events</h3>
+						<p>Registrera event på DOM-element</p>
+<pre><code class="javascript" contenteditable data-trim>
+function listen(evt, el, func) {
+  // W3C DOM
+	if (el.addEventListener) {
+    el.addEventListener(evt, func, false);
+  // < IE9 DOM      
+  } else if (el.attachEvent) {
+    el.attachEvent('on' + evt, func);
+  } else {
+    throw 'Opps!';
+  }
+}
+
+listen('click', document.getElementById('btn'), function() {
+	console.log('Click!');
+});
+</code></pre>
+				
+					<button class="runnable">Kör</button>
+					<button id="btn">#btn</button>
+				</section>
+				
+				<section>
+					<h2>DOM events med jQuery</h2>
+					<p>Fungerar i alla browsers!</p>
+					<pre class="max-width font-large"><code class="javascript" contenteditable data-trim>
+jQuery('#btn2').on('click', function() {
+	console.log('Clicked!');
+});
+					</code></pre>
+				
+					<button class="runnable">Kör</button>
+					<button id="btn2">#btn2</button>
+				</section>
+
+				<section>
+					<h2>DOM Selectors</h2>
+					<img src="img/zebra-fig1.gif" alt="" />
+					<pre class="max-width"><code class="javascript" contenteditable data-trim>
+var tables = document.getElementsByTagName('table');
+for (var t = 0; t < tables.length; t++) {
+  var rows = tables[t].getElementsByTagName('tr');
+  for (var i = 1; i < rows.length; i += 2) {
+    if (!/(^|\s)odd(\s|$)/.test(rows[i].className)) {
+      rows[i].className += ' odd';
+    }
+  }
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>DOM Selectors jQuery</h2>
+					<img src="img/zebra-fig1.gif" alt="" />
+					<pre class="max-width font-large"><code class="javascript" contenteditable data-trim>
+$('tr:nth-child(odd)').addClass('odd');
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Cross Browser AJAX Get</h2>
+					<pre class="max-width"><code class="javascript" contenteditable data-trim>
+var xhrGet = function(url, callback) {
+  var xhr;
+  if (window.XMLHttpRequest) {
+  	// W3C
+	  xhr = new XMLHttpRequest();
+  } else {
+  	// IE < 9
+    var activeXNames = ['MSXML2.XMLHTTP.3.0',
+                        'MSXML2.XMLHTTP',
+                        'Microsoft.XMLHTTP'];
+
+    for (var i = 0; !xhr && i < activeXNames.length; i++) {
+      try {
+        xhr = new ActiveXObject(activeXNames[i]);
+      } catch(e) {
+      }
+    }
+  }
+
+  if (!xhr) {
+    throw 'Could not create XMLHttpRequest!';
+  }
+ 
+  xhr.onreadystatechange = function() {
+    // 4 === complete
+    if (xhr.readyState !== 4) {
+      return;
+    }
+
+    if (xhr.status !== 200 && xhr.status !== 304) {
+      throw 'Error!';
+    }
+
+    callback(xhr.responseText);
+  }
+
+  xhr.open('GET', url, true);
+  xhr.send(null);
+};
+
+xhrGet('//localhost/date', function(res) {
+	console.log('Response', res);
+});
+					</code></pre>
+					<button class="runnable">Kör</button>
+				</section>
+
+				<section>
+					<h2>jQuery AJAX Get</h2>
+					<pre class="max-width font-large"><code class="javascript" contenteditable data-trim>
+jQuery.get('//localhost/date', function(res) {
+	console.log('Response', res);
+});
+					</code></pre>
+					<button class="runnable">Kör</button>
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h1>API</h1>
+
+					<p>Uppdelat i olika moduler <small style="color:red;">*</small></p>
+
+					<ul class="list-unstyled">
+						<li>Core</li>
+						<li>DOM</li>
+						<li>Traversing</li>
+						<li>CSS</li>
+						<li>Ajax</li>
+						<li>Utilities</li>
+					</ul>
+
+					<p>
+						<small><span style="color:red;">* </span>Går nu även att exkludera moduler</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>jQuerys grundkoncept</h2>
+					<blockquote>Get some elements, do something with them</blockquote>
+				</section>
+
+				<section>
+					<h2>Get some elements...</h2>
+					<pre class="max-width font-xlarge"><code class="javascript" contenteditable>
+   jQuery('div');
+//-^---- Skapar ny jQuery instans
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Get some elements...</h2>
+					<pre class="max-width font-xlarge"><code class="javascript" contenteditable>
+   $('div');
+//-^- Skapar ny jQuery instans
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Get some elements...</h2>
+					<pre class="max-width font-xlarge"><code class="javascript" contenteditable>
+   $('div');
+//---^- Selector, hämta alla div-taggar.
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Get some elements...</h2>
+					<pre class="max-width font-xlarge"><code class="javascript" contenteditable>
+$('div.foo');
+//-^---- Selector, hämta alla div-taggar med klassen '.foo'
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Get some elements...</h2>
+					<pre class="max-width font-xlarge"><code class="javascript" contenteditable>
+$('a[href="#"]');
+//^---- Selector, hämta alla a-taggar med attributet 'href=#'
+					</code></pre>
+					<button class="runnable">Kör</button>
+				</section>
+
+				<section>
+					<h2><span style="text-decoration:underline; color: #000;">Do</span> something with them...</h2>
+					<pre class="max-width font-xlarge"><code class="javascript" contenteditable>
+$('.hidden')
+    .show();
+ //----^--- Do something
+					</code></pre>
+				</section>
+
+				<section>
+					<h2><span style="text-decoration:underline; color: #000;">Do</span> something with them...</h2>
+					<pre class="max-width font-xlarge"><code class="javascript" data-trim contenteditable>
+$('li')
+  .addClass('list-item')
+  .on('click', function() {
+    console.log(
+      $(this).hasClass('list-item');
+      //--^-- &lt;li /&gt;
+    );
+  });
+				</code></pre>
+				</section>
+
+				<section>
+					<h2><span style="text-decoration:underline; color: #000;">Create</span> some elements...</h2>
+					<pre class="max-width font-xlarge"><code class="javascript" contenteditable>
+$('&lt;li&gt;');
+  //^---- "Create" (styrs av < > taggarna)
+					</code></pre>
+					<button class="runnable">Kör</button>
+				</section>
+
+				<section>
+					<h2><span style="text-decoration:underline; color: #000;">Create</span> some elements...</h2>
+					<ul id="result">
+						<li>My list item</li>
+					</ul>
+					<pre class="max-width font-xlarge"><code class="javascript" data-trim contenteditable>
+$('&lt;li&gt;')
+   //... Do something...
+   .text('My other item')
+   .css({ color: 'green' })
+   .appendTo('#result');
+					</code></pre>
+					<button class="runnable">Kör</button>
+				</section>
+
+
+			</section>
+
+			<section>
+				<section>
+					<h2>jQuery internt</h2>
+					<p class="fragment">Vad händer när vi skriver <code>$('...');</code>?</p>
+				</section>
+
+				<section>
+					<pre class="max-width"><code class="javascript" contenteditable>
+(function(window, undefined) {
+	var rootjQuery,
+	    _$ = window.$,
+        
+	jQuery = function(selector, context) {
+		return new jQuery.fn.init(selector, context, rootjQuery);
+	};
+
+	// Utilities
+	jQuery.extend = function() {
+		// ...
+	};
+    
+  jQuery.noConflict = function() {
+  	window.jQuery = window.$ = _$;
+
+  	return jQuery;
+  };
+
+	jQuery.fn = jQuery.prototype = {
+		constructor: jQuery,
+
+		length: 0,
+		selector: '',
+
+		init: function(selector, context, rootjQuery) {
+			// Get some elements...
+            
+			return this;
+		}
+
+		// Mer metoder på jQuery.prototype (do something...)
+	};
+
+	jQuery.fn.init.prototype = jQuery.fn;
+
+	if (typeof module === 'object' && typeof module.exports === 'function') {
+		// CommonJS
+		module.exports = jQuery;
+	} else {
+		// Expose to global object
+		window.jQuery = window.$ = jQuery;
+
+		// AMD
+		if (typeof define === 'function' && define.amd) {
+			define('jquery', [], function () { return jQuery; });
+		}
+	}	 
+
+}(window));
+
+console.log('static jQuery.extend', typeof jQuery.extend);
+console.log('jQuery.fn', jQuery('div'));
+jQuery.noConflict();
+					</code></pre>
+					<button class="runnable">Kör</button>
+				</section>
+
+
+			</section>
+
+				<section>
+					<img src="img/JS-usage-statistics.png" alt="" />
+					<small>
+						<a href="http://trends.builtwith.com/javascript">http://trends.builtwith.com/javascript</a> - 2014-01-16
+					</small>
+					<p>
+						Drygt 20% av alla publika sajter, som använder JavaScript, använder jQuery							
+					</p>
+				</section>
+
+				<section>
+					https://github.com/jupiterjs/jquerymx
+					git submodule
+				</section>
+				<section>
+					<p>
+						Många tredjeparts ramverk "drar in" jQuery
+						<small>JSF, ASP.NET, Ruby On Rails etc????</small>
+					</p>
+				</section>
+
+				<section>
+					<p>
+						Många MV* ramverk använder jQuery
+					</p>
+				</section>
+
+			</section>
+
+			<section>
+				<section>
+					<h2>jQuery like libraries</h2>
+
+					<p>Finns enkla "jQuery<em>ish</em>" hjälpbibliotek</p>
+				</section>
+
+				<section>
+					<h2>ZeptoJS</h2>
+				</section>
+
+				<section>
+					<h2>140Medley</h2>
+					https://github.com/honza/140medley/blob/master/140medley.js
+				</section>
+			</section>
+
+			</div>
+
+		</div>
+
+		<!-- 
+			Inkludera global jQuery, kommer behövas för att köra 
+			script från console etc 
+		--> 
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<!-- <script src="js/vendor/jquery-2.0.3.js"></script> -->
+
+		<script src="js/vendor/reveal/lib/js/head.min.js"></script>
+		<script src="js/vendor/reveal/js/reveal.min.js"></script>
+
+		<script>
+			(function($) {
+
+				Reveal.addEventListener('fragmentshown', function(e) {
+					var $fragment = $(e.fragment);
+    			if ($fragment.hasClass('js')) {
+    				$fragment.closest('section')
+    								 .find('.fragment:not(:last)')
+    								 .addClass('strikethrough');
+    			}
+				});
+
+				var handleClick = function($block) {
+					return function() {
+						new Function($block.text())();						
+					};
+				},
+
+				setup = function() {
+					$('code').attr({
+						spellcheck: false
+					});
+
+					$('button.runnable').each(function() {
+						var $this = $(this),
+								$block = $this.prev().find('code');
+
+						$this.on('click', handleClick($block));
+					});
+				};
+
+				$(document).ready(setup);
+				
+			}(jQuery));
+
+		</script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				width: 1024,
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+				dependencies: [
+					{ src: 'js/vendor/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'js/vendor/reveal/plugin/highlight/highlight.js', async: true, callback: function() { 
+
+						hljs.tabReplace = '  '; // 2 spaces
+						hljs.initHighlightingOnLoad();
+
+					} },
+					{ src: 'js/vendor/reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'js/vendor/reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
