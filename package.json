@@ -1,4 +1,6 @@
 {
+  "author": "@nekman (http://nekman.se)",
+  "description": "jQuery presentation for JDD",
   "name": "JDD-jQuery",
   "version": "0.1.0",
   "dependencies": {
