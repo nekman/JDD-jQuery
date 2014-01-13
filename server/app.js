@@ -2,10 +2,12 @@
 
 var express = require('express'),
     app = express(),
-    port = process.env.PORT || 80;
+    cartRoute = require('./routes/cartRoute'),
+    productRoute = require('./routes/productRoute'),
+    productProvider = require('./providers/productProvider');
 
-require('./routes/cartRoute')(app, express);
-var productProvider = require('./providers/productProvider');
+cartRoute.registerRoutes(app, express.session);
+productRoute.registerRoutes(app);
 
 app.configure(function() {
   // Static resources  
@@ -46,6 +48,7 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/');
 app.engine('.html', require('ejs').__express);
 
+var port = process.env.PORT || 80;
 app.listen(port, function() {
  console.log('Listening on', port);
 });

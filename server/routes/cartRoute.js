@@ -1,43 +1,35 @@
 'use strict';
 
-module.exports = function(app, express) {
+module.exports = {
+  registerRoutes: function(app, session) {    
+    var Cart = require('./../store/Cart'),
+        cart = new Cart(session);
 
-  var productProvider = require('./../providers/productProvider'),
-      Cart = require('./../store/Cart');
+    // Send cart
+    app.all('/cart', function(req, res) {
+      res.send(cart);
+    });
 
-  var cart = new Cart(express.session);
+    app.all('/cart/summary', function(req, res) {
+      res.send(cart.summary());
+    });
 
-  // Send all products
-  app.all('/products', function(req, res) {
-    res.send(productProvider.all());
-  });
+    app.all('/cart/total', function(req, res) {
+      res.send(cart.total());
+    });
 
-   // Send cart
-  app.all('/cart', function(req, res) {
-    res.send(cart);
-  });
+    // Store product
+    app.post('/cart/store/:id', function(req, res) {
+      var result = cart.store(req.params.id);
+      
+      res.send(result);
+    });
 
-  app.all('/cart/summary', function(req, res) {
-    res.send(cart.summary());
-  });
-
-  app.all('/cart/total', function(req, res) {
-    res.send(cart.total());
-  });
-
-  // Store product
-  app.post('/cart/store/:id', function(req, res) {
-    var result = cart.store(req.params.id);
-    
-    res.send(result);
-  });
-
-  // Remove product
-  app.post('/cart/remove/:id', function(req, res) {
-    var result = cart.remove(req.params.id);
-    
-    res.send(result);
-  });
-
-};   
-
+    // Remove product
+    app.post('/cart/remove/:id', function(req, res) {
+      var result = cart.remove(req.params.id);
+      
+      res.send(result);
+    });
+  }
+};
