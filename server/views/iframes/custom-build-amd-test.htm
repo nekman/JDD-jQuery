@@ -1,0 +1,26 @@
+<html>
+<head>
+	<script>
+		
+		window.require = {
+			paths: {
+				sizzle: ['jquery/src/sizzle/dist/sizzle']
+			}
+		};
+
+	</script>
+	<script src="js/vendor/require.min.js"></script>
+
+	<script>
+		require(['jquery/src/attributes'], function(jQuery) {
+			console.log('jQuery', jQuery);
+
+			window.jQuery = jQuery;
+		});
+	</script>
+</head>
+
+<body>
+	<h1>Use jQuery attr module</h1>
+	<p>Open console...</p>
+</body>

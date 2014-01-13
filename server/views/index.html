@@ -1,0 +1,1029 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>JDD jQuery</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="reveal/css/reveal.min.css">
+    <link rel="stylesheet" href="reveal/css/theme/beige.css">
+    
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="css/vendor/github.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="css/vendor/bootstrap-glyphicons.css">
+    <!-- app.css -->
+    <link rel="stylesheet" href="css/app.css"> 
+   
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section data-background="#0091BE">
+          <img src="img/HTML5_sticker.png" alt="" />
+        </section>
+
+        <section>
+          <h1 class="text-center">jQuery</h1>
+          <img alt="JDD logo" src="img/JDD-transparent.png">
+
+          <p>
+            <small>
+              <a href="http://nekman.se">Nils Ekman</a> <a href="http://twitter.com/nekman">@nekman</a>
+            </small>
+          </p>
+        </section>
+
+        <section>
+          <h2>Agenda</h2>
+          <ul>
+            <li>Introduktion till jQuery</li>
+            <li>API</li>
+            <li>jQuery internt</li>
+            <li>Prestanda</li>  
+            <li>Anti patterns</li>
+            <li>Plugins</li>
+            <li>Anpassning</li>
+          </ul>
+        </section>
+
+        <section class="white-color" data-background="#121A27">
+          <img alt="jQuery logo" src="img/jquery_logo.png">
+
+          <ul>
+            <li>
+              Släppt 2006 av <a href="http://ejohn.org/">John Resig</a> <a href="https://twitter.com/jeresig">@jeresig</a>
+            </li>       
+            <li>Open Source (<a href="https://github.com/jquery/jquery">https://github.com/jquery/jquery</a>)</li>
+            <li>Sköts av jQuery Foundation (<a href="http://jquery.org">http://jquery.org</a>)</li>
+            <li>Licensierat under MIT</li>
+          </ul>         
+        </section>
+
+        <section data-background="#fff">
+          <h2>jQuery Foundation Projects</h2>
+          <img src="img/jquery.jpg" alt="" />
+          <table>
+            <tr>
+              <td class="white-background">         
+                <img src="img/jqueryui.jpg" alt="" />
+              </td>
+              <td class="white-background">
+                <img src="img/jquerymobile.jpg" alt="" />
+              </td>
+            </tr>
+            <tr>
+              <td class="white-background">
+                <img src="img/qunit.jpg" alt="" />
+              </td>
+              <td class="white-background">
+                <img src="img/sizzle.jpg" alt="" />
+              </td>
+            </tr>
+          </table>          
+        </section>
+
+        <section class="left font-small" style="width: auto;">
+          <h2>Historik</h2>
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2">Version</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>0.X</td><td>2005-08-22</td><td>John Resig <a href="http://ejohn.org/blog/selectors-in-javascript/">nämner på sin blogg att han jobbar på ett nytt JS-bibliotek</a></td></tr>
+              <tr class="fragment"><td>1.0</td><td>2006-08-26</td><td>Första release</td></tr>
+              <tr class="fragment"><td>1.1</td><td>2007-06-17</td><td>Plugin repository</td></tr>
+              <tr class="fragment"><td>1.2</td><td>2007-09-17</td><td>jQuery UI släpps</td></tr>          
+              <tr class="fragment"><td>1.2.6</td><td>2008-05-09</td><td>QUnit 1.0</td></tr>             
+              <tr class="fragment"><td>1.3</td><td>2009-01-14</td><td>Inför Sizzle</td></tr>
+              <tr class="fragment"><td>1.5</td><td>2011-01-31</td><td>Stor $.ajax refaktorering. Inför <a href="https://api.jquery.com/jquery.deferred/">Deferred</a></td></tr>
+              <tr class="fragment"><td>1.7</td><td>2011-11-03</td><td>Nytt event-API. Inför on/off. Registrerar sig själv som en <a href="http://en.wikipedia.org/wiki/Asynchronous_module_definition">AMD</a>-modul</td></tr>
+              <tr class="fragment"><td>1.7</td><td>2011-11-16</td><td>jQuery Mobile 1.0</td></tr>
+              <tr class="fragment"><td>1.7.2</td><td>2012-04-06</td><td>jQuery Foundation bildas</td></tr>
+              <tr class="fragment"><td>2.0 / 1.10</td><td>2013-04-18</td><td>Två brancher, 2.0 för moderna browsers (IE9+) och 1.10 för äldre</td></tr>
+              <tr class="fragment"><td>2.1 / 1.11</td><td>2013-11-16</td><td>Infört AMD internt. 2.0-versionen publiceras till <a href="https://npmjs.org/package/jquery">npm</a></td></tr>
+            </tbody>
+
+            <aside class="notes">
+            jQuery 2.0 is intended for the modern web; we’ve got jQuery 1.x to handle older browsers and fully expect to support it for several more years.
+            </aside>
+          </table>
+
+        </section>
+
+        <section>
+          <h1>Community</h1>
+          <ul class="list-unstyled">
+            <li>Repository <a href="http://github.com/jquery/jquery">github.com/jquery/jquery</a></li>
+            
+            <li>
+              <ul>
+                <li><strong>5955</strong> forks</li>
+                <li><strong>2532</strong> watchers</li>
+                <li><strong>27738</strong> stars</li>           
+              </ul>
+            </li>
+            <li>API <a href="http://api.jquery.com">api.jquery.com</a></li>
+            <li>Bugs <a href="http://bugs.jquery.com">bugs.jquery.com</a></li>
+            <li>Learn <a href="http://learn.jquery.com">learn.jquery.com</a></li>
+            <li>Forum <a href="http://forum.jquery.com">forum.jquery.com</a></li>
+            <li>Plugins <a href="http://plugins.jquery.com">plugins.jquery.com</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Hello World!</h2>
+
+          <pre class="max-width font-large"><code class="html" data-trim>
+&lt;script src="//code.jquery.com/jquery-1.10.2.js"&gt;&lt;/script&gt;
+          </code></pre>
+
+
+          <pre class="max-width font-large"><code class="javascript" contenteditable data-trim>
+jQuery(document).ready(function() {
+  console.log('Hello World!');
+});
+          </code></pre>
+
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+        </section>
+
+        <section>
+
+
+          <section>
+            <h2>Vad är jQuery?</h2>
+
+            <p class="fragment">Cross browser DOM-wrapper?</p>
+            <p class="fragment">Schweizisk armékniv?</p>
+            <p class="fragment js">JavaScript!</p>
+
+          </section>
+
+          <section>
+            <h2>Vad hjälper jQuery oss med?</h2>
+          </section>
+
+          <section>
+            <h3>DOM events</h3>
+            <p>Registrera event på DOM-element</p>
+
+            <div class="result">
+              <input type="button" value="#btn" id="btn"/>
+            </div>
+
+<pre class="max-width font-large"><code class="javascript" contenteditable data-trim>
+function listen(evt, el, func) {
+  // W3C DOM
+  if (el.addEventListener) {
+    el.addEventListener(evt, func, false);
+  // < IE9 DOM      
+  } else if (el.attachEvent) {
+    el.attachEvent('on' + evt, func);
+  } else {
+    throw 'Opps!';
+  }
+}
+
+listen('click', document.getElementById('btn'), function() {
+  console.log('Click!');
+});
+</code></pre>
+        
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>          
+        </section>
+        
+        <section>
+          <h2>DOM events med jQuery</h2>
+          <p>Fungerar i alla browsers!</p>
+
+          <div class="result">
+            <input type="button" value="#btn2" id="btn2"/>
+          </div>
+
+          <pre class="max-width font-large"><code class="javascript" contenteditable data-trim>
+jQuery('#btn2').on('click', function() {
+  console.log('Clicked!');
+});
+          </code></pre>
+        
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+        </section>
+
+        <section>
+          <h2>DOM Selectors</h2>
+          <img src="img/zebra-fig1.gif" alt="" />
+          <pre class="max-width"><code class="javascript" contenteditable data-trim>
+var tables = document.getElementsByTagName('table');
+for (var t = 0; t < tables.length; t++) {
+  var rows = tables[t].getElementsByTagName('tr');
+  for (var i = 1; i < rows.length; i += 2) {
+    if (!/(^|\s)odd(\s|$)/.test(rows[i].className)) {
+      rows[i].className += ' odd';
+    }
+  }
+}
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>DOM Selectors jQuery</h2>
+          <img src="img/zebra-fig1.gif" alt="" />
+          <pre class="max-width font-large"><code class="javascript" contenteditable data-trim>
+$('tr:nth-child(odd)').addClass('odd');
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Cross Browser AJAX Get</h2>
+          <pre class="max-width"><code class="javascript" contenteditable data-trim>
+var xhrGet = function(url, callback) {
+  var xhr;
+  if (window.XMLHttpRequest) {
+    // W3C
+    xhr = new XMLHttpRequest();
+  } else {
+    // IE < 9
+    var activeXNames = ['MSXML2.XMLHTTP.3.0',
+                        'MSXML2.XMLHTTP',
+                        'Microsoft.XMLHTTP'];
+
+    for (var i = 0; !xhr && i < activeXNames.length; i++) {
+      try {
+        xhr = new ActiveXObject(activeXNames[i]);
+      } catch(e) {
+      }
+    }
+  }
+
+  if (!xhr) {
+    throw 'Could not create XMLHttpRequest!';
+  }
+ 
+  xhr.onreadystatechange = function() {
+    // 4 === complete
+    if (xhr.readyState !== 4) {
+      return;
+    }
+
+    if (xhr.status !== 200 && xhr.status !== 304) {
+      throw 'Error!';
+    }
+
+    callback(xhr.responseText);
+  }
+
+  xhr.open('GET', url, true);
+  xhr.send(null);
+};
+
+xhrGet('/date', function(res) {
+  console.log('Response', res);
+});
+          </code></pre>
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+        </section>
+
+        <section>
+          <h2>jQuery AJAX Get</h2>
+          <pre class="max-width font-large"><code class="javascript" contenteditable data-trim>
+jQuery.get('/date', function(res) {
+  console.log('Response', res);
+});
+          </code></pre>
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+        </section>
+      </section>
+
+        <section>
+        <h2>Två versioner</h2>
+
+        <p><strong>2.X</strong> - För moderna browsers (IE9+)</p>
+        <p><strong>1.X</strong> - För äldre browsers (IE 6/7/8)</p> 
+
+        <small>
+          <a href="http://blog.jquery.com/2013/04/18/jquery-2-0-released/">
+            http://blog.jquery.com/2013/04/18/jquery-2-0-released/
+          </a>
+        </small>
+      </section>
+
+      <section>
+        <h2>Två versioner</h2>
+
+        <img src="img/2.x-branch.png" alt="" />
+        <small>
+          <a href="https://github.com/jquery/jquery/blob/master/src/ajax/xhr.js">
+            https://github.com/jquery/jquery/blob/master/src/ajax/xhr.js
+          </a>
+        </small>
+
+        <img src="img/1.x-branch.png" alt="" />
+        <small>
+          <a href="https://github.com/jquery/jquery/blob/1.x-master/src/ajax/xhr.js">
+            https://github.com/jquery/jquery/blob/1.x-master/src/ajax/xhr.js
+          </a>
+        </small>
+      </section>
+
+
+      <section>
+        <h2>Två versioner</h2>
+
+        <h3>2.X API === 1.X API</h3>
+      </section>
+
+      <section>
+        <h2>2.X</h2>
+
+        <p>Förslag på användning för jQuery 2.X (förutom för moderna browsers)</p> 
+        <div class="fragment">
+          <ul class="center">
+            <li>Google Chrome extensions</li>
+            <li>Firefox extensions</li>
+            <li>Firefox OS appar</li>
+            <li>Chrome OS appar</li>
+            <li>Windows 8 appar</li>
+            <li>BlackBerry 10/PhoneGap appar</li>
+            <li>Node.js (med t.ex. <a href="https://github.com/tmpvar/jsdom">jsdom</a>)</li>
+            <li>Interna (intranät) appar</li>
+          </ul>
+
+          <div>
+            <small>
+              <a href="http://blog.jquery.com/2013/04/18/jquery-2-0-released/">
+                http://blog.jquery.com/2013/04/18/jquery-2-0-released/
+              </a>
+            </small>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Stödja både äldre och nya IE?</h2>
+
+        <p>Använd "IE conditionals"</p>
+        <pre class="fragment max-width font-large"><code class="html" data-trim>
+<!--[if lt IE 9]>
+    <script src="jquery-1.10.3.js"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+    &lt;script src="jquery-2.0.3.js"&gt;&lt;/script&gt;
+<!--<![endif]-->
+</code></pre>
+      </section>
+
+      <section>
+        <section>
+          <h1>API</h1>
+
+          <p>Uppdelat i olika moduler <small style="color:red;">*</small></p>
+
+          <ul class="list-unstyled">
+            <li>Selectors</li>
+            <li>Traversing</li>
+            <li>CSS</li>
+            <li>Ajax</li>
+            <li>Utilities</li>
+          </ul>
+
+          <p>
+            <small><span style="color:red;">* </span>Går nu även att exkludera moduler</small>
+          </p>
+        </section>
+
+        <section>
+          <h2>jQuery funktionen</h2>
+          <p class="fragment">
+            Tar en selector, DOM-element eller ett annat jQuery objekt.
+            Returnerar <u>alltid</u> sig själv (sin prototyp).
+          </p>                   
+          <div class="fragment">
+            <pre class="max-width font-large"><code class="javascript" data-trim contenteditable>
+jQuery('body'); 
+/*
+=>
+{
+  0: body
+  context: document
+  length: 1
+  prevObject: jQuery.fn.jQuery.init[1]
+  selector: "body"
+}*/
+            </code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>jQuery funktionen</h2>
+          <p class="fragment">
+            Har en <code>length</code> property som innehåller antalet element
+          </p>
+          <div class="fragment">
+            <pre class="max-width font-large"><code class="javascript" data-trim contenteditable>
+if (jQuery('.cart')) {
+  console.log('Found .cart');
+}
+
+if (jQuery('.cart') !== null) {
+  console.log('Found .cart');
+}
+
+if (jQuery('.cart').length) {
+  console.log('Found .cart');
+}
+          </code></pre>
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+
+          </div>
+
+          <p class="fragment">
+            Använd alltid <code>length</code> för att kolla 
+            om ett element finns eller ej.
+          </p>
+
+        </section>
+
+        <section>
+          <h2><code>jQuery</code> eller <code>$</code>-funktionen?</h2>
+          
+          <div class="fragment">
+            <p>De betyder vanligen samma sak!</p>
+            <p>~ rad 8800 i jquery-2.0.3.js / ~ rad 9800 i jquery-1.10.2.js</p>            
+            <pre class="max-width font-xlarge"><code class="javascript" data-trim>
+window.jQuery = window.$ = jQuery;
+</code></pre>
+          </div>
+        </section>
+
+        <section>
+          <h2>jQuerys grundkoncept</h2>
+          <blockquote>"Get some elements, do something with them"</blockquote>
+        </section>
+
+        <section>
+          <h2>Selectors (Get some elements...)</h2>
+          <pre class="max-width font-xlarge"><code class="javascript" data-trim contenteditable>
+jQuery('div');
+//-------^- Selector, hämta alla &lt;div/&gt;
+$('a[href="#"]');
+//--^---- Selector, hämta alla a-taggar med attributet 'href=#'
+$('div.foo');
+//--^---- Selector, hämta alla div-taggar med klassen '.foo'</code></pre>
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+        </section>
+
+        <section>
+          <h2>Do</span> something with them...</h2>
+          <p>jQuery()-funktionen skapar en ny instans av jQuery (och returnerar sig själv)</p>
+          <p>Med hjälp av metoderna på prototypen (<code>jQuery.fn</code>) kan man sedan göra diverse saker</p>
+        </section>
+
+        <section>
+          <h2><span class="underline">Do</span> something with them...</h2>
+          <div class="result">
+            <p class="hidden" style="display:none;">Hidden content</p>            
+          </div>
+
+          <pre class="max-width font-xlarge"><code class="javascript" data-trim contenteditable>
+$('.hidden').show();
+ //----------^--- Do something
+
+$('li').each(function(index, el) {
+  //----^--- Do something
+  // el = DOM-node
+  // this = DOM-node 
+  console.log('li', index, this);
+});</code></pre>
+
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+        </section>
+
+        <section>
+          <h2><span class="underline">Do</span> something with them...</h2>
+
+          <div class="result">
+            <ul id="list" class="list-unstyled">
+              <li>My list item</li>
+            </ul>
+          </div>
+
+          <pre class="max-width font-xlarge"><code class="javascript" data-trim contenteditable>
+$('ul#list li')
+  .addClass('list-item')
+  .on('click', function() {
+    console.log(
+      $(this).hasClass('list-item')
+      //--^-- &lt;li /&gt;
+    );
+  });
+          </code></pre>
+          
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+
+        </section>
+
+        <section>
+          <h2><span class="underline">Create</span> some elements...</h2>
+          <pre class="max-width font-xlarge"><code class="javascript" contenteditable>
+$('&lt;li&gt;');
+  //^---- "Create" (styrs av < > taggarna)
+          </code></pre>
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+        </section>
+
+        <section>
+          <h2><span class="underline">Create</span> some elements...</h2>
+          <div class="result">
+            <ul id="result">
+              <li>My list item</li>
+            </ul>
+          </div>
+          <pre class="max-width font-xlarge"><code class="javascript" data-trim contenteditable>
+$('&lt;li&gt;')
+   //... Do something...
+   .text('My other item')
+   .css({ color: 'green' })
+   .appendTo('#result');
+          </code></pre>
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+          
+          <aside class="notes">
+            Create med properties
+          </aside>
+
+        </section>
+
+        <section>
+          <h2>Traversering</h2>
+           <table class="center">
+            <tr>
+              <td><code>next</code></td><td><code>prev</code></td>
+            </tr>
+            <tr>
+              <td><code>parent</code></td><td><code>parents</code></td>
+            </tr>
+            <tr>
+              <td><code>add</code></td><td><code>end</code></td>
+            </tr>
+            <tr>
+              <td><code>filter</code></td><td><code>closest</code></td>
+            </tr>
+          </table>
+
+          <p>m.m</p>
+        </section>
+
+        <section>
+          <h2>Traversering</h2>
+          <pre class="max-width font-xlarge"><code class="javascript" data-trim contenteditable>
+var $uls = $('ul') //[ul, ul]
+             .filter(':not([data-toggle])')
+             .find('li') //[li, li]
+             .addClass('special')
+             .end() //[ul, ul]
+             .addClass('super-special');
+
+console.log($uls);
+</code></pre>
+
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+        </section>
+
+        <section>
+          <h2>Effects</h2>
+             <table class="center">
+              <tr>
+                <td><code>slideDown</code></td><td><code>slideUp</code></td><td><code>slideToggle</code></td>
+              </tr>
+              <tr>
+                <td><code>fadeIn</code></td><td><code>fadeOut</code></td><td><code>stop</code></td>
+              </tr>
+              <tr>
+                <td><code>animate</code></td><td><code>show</code></td><td><code>hide</code></td>
+              </tr>
+            </table>
+
+            <p>m.m</p>
+        </section>
+
+        <section>
+          <h2>Effects - <code>animate</code></h2>
+
+          <div class="result">
+            <div id="effects" class="css-reset"></div>
+          </div>
+
+          <pre class="max-width font-xlarge"><code class="javascript" data-trim contenteditable>
+$('#effects').animate({
+  height: 100, 
+  width: 250,
+  opacity: .5
+}, 200, function(){
+  $(this).html('&lt;strong&gt;Done!&lt;/strong&gt;');
+});
+          </code></pre>
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+
+          <button data-reset-css="#effects" />
+            Reset
+          </button>
+
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Utility metoder</h2>
+
+          <p>Finns flera statiska "utility"-metoder på <code>jQuery</code> funktionen</p>
+          <div class="fragment">            
+            <table class="center">
+              <tr>
+                <td><code>isFunction</code></td><td><code>isArray</code></td>
+              </tr>
+              <tr>
+                <td><code>isEmptyObject</code></td><td><code>noop</code></td>
+              </tr>
+              <tr>
+                <td><code>each</code></td><td><code>map</code></td>
+              </tr>
+              <tr>
+                <td><code>proxy</code></td><td><code>extend</code></td>
+              </tr>
+              <tr>
+                <td><code>Deferred</code></td><td><code>ajax</code></td>
+              </tr>
+            </table>
+
+          </div>
+
+        </section>
+
+        <section>
+          <h2>Utility metoder</h2>
+          <code>jQuery.each / jQuery.map</code>
+          <div class="fragment">
+          <pre class="max-width font-large"><code class="javascript" data-trim contenteditable>
+jQuery.each(['a', 'b', 'c'], function(index, value) {
+  console.log(index, value); 
+});
+
+var res = jQuery.map(['2', '3', '4'], function(value) { 
+  return parseInt(value) > 2 ? value : null; 
+});
+
+console.log('Result', res);
+            </code></pre>
+            <button class="runnable">
+              <i class="glyphicon glyphicon-play"></i>
+            </button>
+
+            <aside class="notes">
+              > Visa att utility-metoder ej matchar motsvarigheten i ES5.
+
+              > För att functions är "first-class objects" kan man
+              utöka dessa med egna properties etc.
+            </aside>
+
+          </div>
+        </section>
+
+        <section>
+          <h2>Utility metoder</h2>
+
+          <p><code>jQuery.Deferred</code></p>          
+          <div class="fragment">
+            <pre class="max-width font-large"><code class="javascript" data-trim contenteditable>
+function async(shouldFail) {
+  var dfd = $.Deferred();
+  // Do some async stuff...
+  setTimeout(function() {
+    shouldFail ? dfd.reject() : dfd.resolve();
+  }, 500 + Math.floor(Math.random() * 1000));
+
+  return dfd.promise();
+}
+
+async().done(function() {
+  console.log('Done!', arguments);
+}).fail(function() {
+  console.error('Fail', arguments);
+});
+            </code></pre>
+            <button class="runnable">
+              <i class="glyphicon glyphicon-play"></i>
+            </button>
+
+            <aside class="notes">
+              Infördes redan i version 1.5. Många "vet" dock inte om detta.
+              Refaktorera. Visa jQuery.when
+            </aside>
+
+          </div>
+        </section>
+
+        <section>
+          <h2>Utility metoder</h2>
+
+          <p><code>jQuery.ajax</code> returnerar promise</p>
+          <div class="fragment">
+            <pre class="max-width font-large"><code class="javascript" data-trim contenteditable>
+$.ajax({
+  url: '/echo',
+  method: 'POST',
+  data: { hello: 'world '},
+  success: function(res) {
+    console.log('Response', res);
+  },
+  error: function(err) {
+    console.error('Error', err);
+  }
+});
+            </code></pre>
+            <button class="runnable">
+              <i class="glyphicon glyphicon-play"></i>
+            </button>
+
+            <aside class="notes">
+              Refaktorera till att använda done och fail istället.
+            </aside>
+
+          </div>
+        </section>
+
+        <section>
+          <h2>Utility metoder</h2>
+
+          <p><code>jQuery.proxy</code> bestämmer innebörden av <code>this</code></p>
+          <div class="result">
+            <a href="javascript:;" class="hello">Say hello</a>
+          </div>
+          <div class="fragment">
+            <pre class="max-width font-large"><code class="javascript" data-trim contenteditable>
+var Person = function(name) {
+  this.name = name;
+};
+
+Person.prototype.sayHello = function() {
+  console.log('%s says hello', this.name);
+};
+
+var p = new Person('Nils');
+$('a.hello').on('click', $.proxy(p.sayHello, p));
+
+            </code></pre>
+            <button class="runnable">
+              <i class="glyphicon glyphicon-play"></i>
+            </button>
+
+            <aside class="notes">
+              Refaktorera till att använda done och fail istället.
+            </aside>
+
+          </div>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h2>jQuery internt</h2>
+          <p class="fragment">Vad händer när vi skriver <code>$('...');</code>?</p>
+          <p class="fragment">Var kommer de globala jQuery och $ från?</p>
+          <p class="fragment">Hur kan jQuery utökas med jQuery.fn?</p>
+
+        </section>
+
+        <section>
+          <pre class="max-width"><code class="javascript" contenteditable>
+(function(window, undefined) {
+  var rootjQuery,
+      _$ = window.$ //Ta kopia på global $...,
+        
+  /** 
+   * jQuery funktionen, körs varje gång
+   * vi skriver jQuery('...') eller $('...')
+   * skapar en ny instans av jQuery genom att anropa
+   * 'new jQuery.prototype.init'
+   */
+  jQuery = function(selector, context) {
+    return new jQuery.fn.init(selector, context, rootjQuery);
+  };
+
+  /* Statiska metoder som vi kommer åt 
+   * direkt via jQuery.
+   *
+   * T.ex. jQuery.ajax, jQuery.each, jQuery.noConflict mm.
+   * 
+   */
+  jQuery.noConflict = function() {
+    console.log('noConflict', this);
+    window.jQuery = window.$ = _$;
+
+    return jQuery;
+  };
+  // ... Mer utilities
+
+ /**
+  * jQuery.fn === jQuery.prototype (betyder precis samma sak) 
+  */
+  jQuery.fn = jQuery.prototype = {
+    constructor: jQuery,
+
+    length: 0,
+    selector: '',
+
+    /**
+     * Anropas från jQuery() konstruktorn.
+     */
+    init: function(selector, context, rootjQuery) {
+      // Get some elements...
+            
+      return this;
+    },
+
+    each: function() {
+      console.log('each', this);
+
+      return this;
+    }
+
+    // Mer metoder på jQuery.prototype (do something...)
+  };
+
+
+  jQuery.fn.init.prototype = jQuery.fn;
+
+ /**
+  * Längst ner i jquery.js exporteras jQuery och $ till
+  * globalt scope i browser-miljö.
+  *
+  * Eller, exporteras via module.exports i Node.js miljö
+  */
+  if (typeof module === 'object' && typeof module.exports === 'function') {
+    // CommonJS
+    module.exports = jQuery;
+  } else {
+    // Expose to global object + AMD
+    window.jQuery = window.$ = jQuery;
+  }  
+
+}(window));
+
+console.log('static jQuery.noConflict', typeof jQuery.noConflict);
+console.log('jQuery.fn', jQuery('div').each());
+
+          </code></pre>
+          <button class="runnable">
+            <i class="glyphicon glyphicon-play"></i>
+          </button>
+        </section>
+
+
+      </section>
+
+      <section>
+        <section>
+          <h2>Varför ska jag bry mig om jQuery?</h2>  
+        </section>
+
+        <section>
+          <img src="img/JS-usage-statistics.png" alt="" />
+          <small>
+            <a href="http://trends.builtwith.com/javascript">http://trends.builtwith.com/javascript</a> - 2014-01-16
+          </small>
+          <p>
+            Drygt 20% av alla publika sajter, som använder JavaScript, använder jQuery              
+          </p>
+        </section>
+
+        <section>          
+          <h2>Många tredjeparts ramverk "drar in" jQuery</h2>          
+          <p>JSF PrimeFaces/RichFaces</p>
+          <p>ASP.NET MVC</p>
+          <p>Ruby On Rails (3.1)</p>
+          <p>Wordpress</p>
+          
+          <div>
+            <small>
+              <a href="http://weblog.rubyonrails.org/2011/4/21/jquery-new-default/">
+                http://weblog.rubyonrails.org/2011/4/21/jquery-new-default/
+              </a>
+            </small>
+          </div>
+          <small><span class="red">*</span> Med reservation för felskrivningar</small>
+        </section>
+
+        <section>
+          <h2>
+            Många JS-bibliotek använder sig av jQuery
+          </h2>
+          <img src="img/kendoui.jpg" alt="" />
+          <img src="img/tb.jpg" alt="" />
+          <img src="img/zurb.jpg" alt="" />
+          <img src="img/backbone.jpg" alt="" />
+          <img src="img/angular.jpg" alt="" />
+
+          <p><span class="red">*</span> Angular och Ember går att köra utan jQuery, de 
+          använder dock egna jQuery-"lite" bilbiotek med liknande API.</p>
+
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h1>jQuery anti patterns</h1>
+        </section>
+
+        <section>
+          <h2>Att anropa jQuery hela tiden...</h2>
+          
+        </section>
+
+      </section>
+
+      <section>
+        <iframe src="/shoppingcart?script=shoppingcart-spagetti.js" width="900" height="700" scrolling="no">
+        </iframe>
+      </section>
+
+      <section>
+        <iframe src="/shoppingcart?script=shoppingcart-refactored.js" width="900" height="700" scrolling="no">
+        </iframe>
+      </section>
+
+      <section>
+        <iframe src="js/vendor/jasmine/SpecRunner.html" width="900" height="700" scrolling="no">
+        </iframe>
+      </section>
+
+      <section>
+        <section>
+          <h2>jQuery like libraries</h2>
+
+          <p>Finns enkla "jQuery<em>ish</em>" hjälpbibliotek</p>
+        </section>
+
+        <section>
+          <h2>ZeptoJS</h2>
+        </section>
+
+        <section>
+          <h2>140Medley</h2>
+          https://github.com/honza/140medley/blob/master/140medley.js
+        </section>
+      </section>
+
+      </div>
+
+    </div>
+
+    <!-- 
+      Inkludera global jQuery, kommer behövas för att köra 
+      script från console etc 
+    --> 
+    <script data-main="js/app.config" src="js/vendor/require.min.js"></script>
+    
+  </body>
+</html>

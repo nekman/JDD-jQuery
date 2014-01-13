@@ -31,9 +31,23 @@ img {
 	color: #fff;
 }
 
+li.list-item {
+	cursor: pointer;
+}
+
+iframe{
+  overflow: hidden;
+}
+
 code {
 	outline: none;
 	word-wrap: break-word !important;
+	max-height: 550px !important;
+	color: #333;
+}
+
+.hidden-content {
+	display: none;
 }
 
 button {
@@ -84,4 +98,37 @@ tbody tr:nth-child(even) {
 
 ul.list-unstyled {
 	list-style: none;
+}
+
+.glyphicon {
+	font-family: 'Glyphicons Halflings' !important;
+	font-style: normal !important;
+}
+
+.underline {
+	text-decoration: underline; 
+	color: #000;
+}
+
+.css-reset {
+	width: 50px; 
+	height: 50px; 
+	background-color: #f8a;
+	text-align: center;
+}
+
+.result {
+	text-align: left;
+	background-color: #fff;
+	width: 100% !important;
+	border: 2px solid #ccc;
+	padding: 5px !important;
+	max-height: 200px;
+	min-height: 60px;
+	box-shadow: 1px 1px 1px 1px #ccc;
+	overflow: auto;
+}
+
+.center {
+	margin: 0 auto !important;
 }

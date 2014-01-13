@@ -4,3 +4,6 @@
 [submodule "reveal"]
 	path = reveal
 	url = https://github.com/hakimel/reveal.js.git
+[submodule "jasmine"]
+	path = jasmine
+	url = https://github.com/pivotal/jasmine.git
