@@ -6,18 +6,18 @@
  * än koden i "shoppingcart-spagetti.js".
  *
  */
-
 (function($) {
   'use strict';
   
   /**
    * Modellen.
    * 
-   * Hämtar data från servern, uppdaterar sig (kommunikationen med servern 
+   * Hämtar data från servern, uppdaterar sig och publicerar events när den gjort detta, 
+   * så att vyerna kan rendera om sig.
+   * 
+   * Kommunikationen med servern 
    * kunde självklart gjorts av en Controller istället, som i sin tur uppdaterat
-   * modellen, men för detta use case duger nedanstående).
-   *
-   * och publicerar events när den gjort detta, så att vyerna kan rendera om sig.
+   * modellen, men för detta use case duger nedanstående.
    *
    * Värt att notera är att modellen inte har någon koppling till DOM:en.
    */
@@ -25,74 +25,85 @@
 
   // Såhär bör man inte göra, då man skriver över hela prototypen.
   // Kunde använt jQuery.extend(CartModel.prototype, {}) istället.
-  CartModel.prototype = {
-
-    fetchTotalPrice: function() {
-      return $.ajax({
-        url: '/cart/total',
-        method: 'POST'
-      });  
-    },
-
-    fetchCartProducts: function() {
-      return $.ajax({
-        url: '/cart/summary',
-        method: 'POST'
-      });  
-    },
-
-    /** Ta bort en produkt.  */
-    remove: function(productId) {
-      var promise = $.ajax({
-        url: '/cart/remove/' + productId,
-        method: 'POST'
-      });
-
-      $.publish('/message/remove', 
-                'Tagit bort '+ productId);
-
-      // NOTE: Kunde även skrivit 'this.fetch.bind(this)'
-      promise.done($.proxy(this.fetch, this));
-    },
-
-    /** Ta bort en produkt.  */
-    store: function(productId) {
-      var promise = $.ajax({
-        url: '/cart/store/' + productId,
-        method: 'POST'
-      });
-
-      $.publish('/message/store', 
-                'Lagt till '+ productId);
-
-      // NOTE: Kunde även skrivit 'this.fetch.bind(this)'
-      promise.done($.proxy(this.fetch, this));
-    },
-
-    /*
-     * Hämtar data från servern, och uppdaterar sig.
-     */
-    fetch: function() {
-      var publish = function(price, cartitems) {
-        this.totalPrice = price && price[0].totalPrice;
-        this.cartitems = cartitems && cartitems[0];
-
-        $.publish('/fetch');      
+  CartModel.prototype = (function() {
+    // private
+    var sendMessage = function(topicName, message) {      
+      return function() {
+        $.publish(topicName, {
+          topic: topicName,
+          value: message
+        });
       };
+    };
 
-      // När både "fetchTotalPrice" och "fetchCartProducts"
-      // är klara, uppdatera model och anropa 'publish' ovan 
-      // för att subscribers (vyer) ska veta när de ska rendera om sig.
-      $.when(
-        this.fetchTotalPrice(),
-        this.fetchCartProducts()
+    return {
+      fetchTotalPrice: function() {
+        return $.ajax({
+          url: '/cart/total',
+          method: 'POST'
+        });  
+      },
 
-        //NOTE: Kunde även skrivit 'publish.bind(this)'
-      ).done($.proxy(publish, this));
+      fetchCartProducts: function() {
+        return $.ajax({
+          url: '/cart/summary',
+          method: 'POST'
+        });  
+      },
 
-      return this;
-    }  
-  };
+      /** Ta bort en produkt.  */
+      remove: function(productId) {
+        var promise = $.ajax({
+          url: '/cart/remove/' + productId,
+          method: 'POST'
+        });
+
+        // NOTE: Kunde även skrivit 'this.fetch.bind(this)'
+        promise
+          .then(sendMessage('/message/remove', 'Tagit bort ' + productId))
+          .done($.proxy(this.fetch, this))
+          .fail(sendMessage('/message/fail', 'Kunde ej ta bort ' + productId));
+      },
+
+      /** Ta bort en produkt.  */
+      store: function(productId) {
+        var promise = $.ajax({
+          url: '/cart/store/' + productId,
+          method: 'POST'
+        });
+
+        // NOTE: Kunde även skrivit 'this.fetch.bind(this)'
+        promise
+          .then(sendMessage('/message/store', 'Lagt till ' + productId))
+          .done($.proxy(this.fetch, this))
+          .fail(sendMessage('/message/fail', 'Kunde ej lägga till ' + productId));
+      },
+
+      /*
+       * Hämtar data från servern, och uppdaterar sig.
+       */
+      fetch: function() {
+        var update = function(price, cartitems) {
+          this.totalPrice = price && price[0].totalPrice;
+          this.cartitems = cartitems && cartitems[0];
+
+          $.publish('/fetch');      
+        };
+
+        // När både "fetchTotalPrice" och "fetchCartProducts"
+        // är klara, uppdatera model och anropa 'update' ovan 
+        // för att subscribers (vyer) ska veta när de ska rendera om sig.
+        $.when(
+          this.fetchTotalPrice(),
+          this.fetchCartProducts()
+
+          //NOTE: Kunde även skrivit 'update.bind(this)'
+        ).done($.proxy(update, this));
+
+        return this;
+      }  
+    };
+  }());
 
   /**
    * Visar meddelanden när användaren lagt till / tagit bort något.
@@ -102,15 +113,26 @@
 
     $.subscribe('/message/store', this, this.render);
     $.subscribe('/message/remove', this, this.render);
+    $.subscribe('/message/fail', this, this.render);
+  };
+
+  CartMessageView.messageTypes = {
+    '/message/store' : 'alert alert-success',
+    '/message/remove': 'alert alert-info',
+    '/message/fail'  : 'alert alert-danger'
   };
 
   CartMessageView.prototype.render = function(message) {
+     console.log(message);
+
      this.$el
          .stop(true, true)
          .show()
-         .addClass('alert-success')
-         .show().html(message)
+         .attr('class', CartMessageView.messageTypes[message.topic])
+         .show().html(message.value)
          .fadeOut(3000);
+
+      return this;
   };
 
   var CartView = function(model) {
@@ -124,7 +146,7 @@
   };
 
   CartView.prototype = {
-    // Template för att 
+    // Template som kan återanvändas när vi ska lägga in nya rader i varukorgen.
     template: '<tr>' +
               '   <td>{{name}}</td>' +
               '   <td>{{qty}}</td>' +
@@ -142,16 +164,19 @@
       });      
     },
     
+    /* Renderar varukorgen */
     render: function() {
+      // Skriv ut totalbelopp
       this.$totalAmount.html(
         this.model.totalPrice
       );
 
       var template = this.template,
-          orderlines = [];
+          lines = [];
 
+      // Skriv ut rader i varukorgen
       $.each(this.model.cartitems, function(index, item) {
-        orderlines.push(
+        lines.push(
           template.replace('{{name}}', item.product.name)
                   .replace('{{qty}}', item.qty)
                   .replace('{{linePrice}}', item.linePrice)
@@ -159,7 +184,9 @@
         );
       });
 
-      this.$cart.empty().html(orderlines.join(''));
+      this.$cart.empty().html(lines.join(''));
+
+      return this;
     }
   };
 

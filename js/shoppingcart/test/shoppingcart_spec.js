@@ -63,13 +63,13 @@ describe('ShoppingCart', function() {
     it('should remove a product', function() {
       sut.remove(1);
      
-      expect(jQuery.publish).toHaveBeenCalledWith('/message/remove', jasmine.any(String));
+      expect(jQuery.publish).toHaveBeenCalledWith('/message/remove', jasmine.any(Object));
     });
 
     it('should store a product', function() {
       sut.store(1);
      
-      expect(jQuery.publish).toHaveBeenCalledWith('/message/store', jasmine.any(String));
+      expect(jQuery.publish).toHaveBeenCalledWith('/message/store', jasmine.any(Object));
     });
   });
 
@@ -90,7 +90,7 @@ describe('ShoppingCart', function() {
       sut = new ShoppingCart.CartView(model);
     });
 
-    it('subscribes to /fetch event', function() {
+    it('subscribes to "/fetch" event', function() {
       new ShoppingCart.CartView(model);
 
       expect(jQuery.subscribe).toHaveBeenCalledWith(

@@ -1,5 +1,5 @@
 define([
-  'reveal', 
+  'reveal',
   'jquery'
 ], 
 function(Reveal, $) {

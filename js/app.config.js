@@ -21,8 +21,8 @@ require({
     },
 
     hljs: {
-      exports: 'hljs',
-      deps: ['reveal']
+      deps: ['reveal'],
+      exports: 'hljs'      
     }
   }
 
