@@ -34,6 +34,13 @@
           value: message
         });
       };
+    },
+
+    update = function(price, cartitems) {
+      this.totalPrice = price && price[0].totalPrice;
+      this.cartitems = cartitems && cartitems[0];
+
+      $.publish('/fetch');      
     };
 
     return {
@@ -83,21 +90,12 @@
        * Hämtar data från servern, och uppdaterar sig.
        */
       fetch: function() {
-        var update = function(price, cartitems) {
-          this.totalPrice = price && price[0].totalPrice;
-          this.cartitems = cartitems && cartitems[0];
-
-          $.publish('/fetch');      
-        };
-
         // När både "fetchTotalPrice" och "fetchCartProducts"
         // är klara, uppdatera model och anropa 'update' ovan 
         // för att subscribers (vyer) ska veta när de ska rendera om sig.
         $.when(
           this.fetchTotalPrice(),
           this.fetchCartProducts()
-
-          //NOTE: Kunde även skrivit 'update.bind(this)'
         ).done($.proxy(update, this));
 
         return this;
