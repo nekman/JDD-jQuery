@@ -4,9 +4,9 @@
  * > Utökar jQuery med metoderna jQuery.subscribe / jQuery.publish.
  * > Ändrat  "topics" till private scope.
  * > Gör det möjligt att skicka in "context" som ett argument.
- *   Kunde tidigare göras genom att anropa med "bind" eller med:
+ *   Kunde tidigare göras genom att anropa med "bind" eller med (typ):
  * 
- *   $.proxy(this, $.subscribe('/example', callback));
+ *   $.proxy($.subscribe('/example', callback), this);
  */
 (function($) {
   'use strict';
