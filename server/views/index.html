@@ -209,7 +209,7 @@ jQuery(document).ready(function() {
           </section>
 
           <section>          
-            <h2>Många tredjeparts ramverk "drar in" jQuery</h2>          
+            <h2>Många tredjepartsramverk "drar in" jQuery</h2>          
             <p>JSF PrimeFaces/RichFaces</p>
             <p>ASP.NET MVC</p>
             <p>Ruby On Rails (3.1)</p>
@@ -231,9 +231,10 @@ jQuery(document).ready(function() {
             </h2>
             <img src="img/kendoui.jpg" alt="" />
             <img src="img/tb.jpg" alt="" />
-            <img src="img/zurb.jpg" alt="" />
+            <img src="img/zurb.jpg" alt="" style="width:30%;height:30%;"/>
             <img src="img/backbone.jpg" alt="" />
             <img src="img/angular.jpg" alt="" />
+            <img src="img/ember.jpg" alt="" />
 
             <p><span class="red">*</span> Angular och Ember går att köra utan jQuery, de 
             använder dock egna jQuery-"lite" bilbiotek med liknande API.</p>
@@ -1306,7 +1307,11 @@ $('#item').html(array.join(''));
 
       <section>
         <h2>ShoppingCart API</h2>
-        <p>Finns ett API för att lägga till produkter i en varukorg</p>
+        <ul>
+          <li>Finns ett API för att lägga till produkter i en varukorg</li>
+          <li>Sparar varukorgen i sessionen</li>
+          <li>Tillkrånglat och anpassat till att vara "snackigt" för demosyftet</li>
+        </ul>
 
         <table class="fragment">
           <tr>
