@@ -25,7 +25,7 @@ Presentationen finns på http://jdd.azurewebsites.net
 [reveal.js]:http://lab.hakim.se/reveal-js/
 [jQuery]:http://jquery.com
 [Highlight.js]: http://highlightjs.org/
-[Jasmine]: http://pivotal.github.io/jasmine/
+[Jasmine]: https://jasmine.github.io/
 [node.js]:http://nodejs.org
 [express]:http://expressjs.com
 [Require.js]:http://requirejs.org
